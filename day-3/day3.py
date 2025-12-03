@@ -1,15 +1,20 @@
 def findLargestJoltage(bank):
     n = len(bank)
-    dp = [['0' for _ in range(n)] for _ in range(13)]
-    
-    dp[1][-1] = bank[-1]
-    for i in reversed(range(len(bank) - 1)):
-        dp[1][i] = max(bank[i], dp[1][i+1])
+    prev = ['0'] * n
+    curr = ['0'] * n
+
+    prev[-1] = bank[-1]
+    for i in reversed(range(n - 1)):
+        prev[i] = max(bank[i], prev[i+1])
     
     for i in range(2, 13):
-        for j in reversed(range(n - i + 1)):
-            dp[i][j] = max(bank[j] + dp[i-1][j+1], dp[i][j+1])
-    return int(dp[12][0])
+        limit = n - i
+        curr[limit] = bank[limit] + prev[limit + 1]
+        for j in reversed(range(limit)):
+            curr[j] = max(bank[j] + prev[j+1], curr[j+1])
+        prev, curr = curr, prev
+
+    return int(prev[0])
 
 def getLargestSuffix(banks):
     largestSuffix = []
