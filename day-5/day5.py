@@ -59,7 +59,7 @@ def main():
     
     print("Part 1:", available)
 
-    print("Part 2:", sum([len(range(start, end+1)) for start, end in freshRanges]))
+    print("Part 2:", sum([end - start + 1 for start, end in freshRanges]))
 
 if __name__=="__main__":
     main()
